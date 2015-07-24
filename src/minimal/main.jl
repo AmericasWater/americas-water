@@ -1,7 +1,4 @@
-# cd("$(homedir())/projects/water/model/src/minimal")
-push!(LOAD_PATH, "$(homedir())/projects/water/model")
-
-import IAMF.runmodel
+import IAMF
 
 include("model.jl")
 
