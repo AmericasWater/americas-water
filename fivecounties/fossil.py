@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+### Fossil fuel component
+## Optimizes phi, the amount of fossil fuel purchased on the market
+## Within this component, fossil fuel is a direct cost with no benefit
+## Call `python fossil.py` to optimize only fuel purchases (goes to 0)
 
 import pandas
 import numpy as np

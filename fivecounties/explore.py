@@ -1,3 +1,6 @@
+### Iterates over a range of food and fuel prices
+## Writes the optimum found for each
+
 import csv
 import numpy as np
 import merged, agriculture, lib

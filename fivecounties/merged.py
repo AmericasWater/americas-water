@@ -1,4 +1,13 @@
 # -*- coding: utf-8 -*-
+### Merging of all components
+## Simulates all components and combines all partial objectives
+##
+## The optimization constraints are that water draws in each county
+## are not more than their rights, and that across all counties energy
+## supplied exceeds energy demand.
+##
+## For a sample optimization, run `python merged.py`.
+
 
 import pandas
 import numpy as np
@@ -125,6 +134,7 @@ bounds = biofuel.bounds + fossil.bounds + agriculture.bounds + industry.bounds
 constraints = [{'type': 'ineq', 'fun': constraint_water}, {'type': 'ineq', 'fun': constraint_energy}]
 
 def safe_generate():
+    """Generates a starting point that satisfies both constraints."""
     # Initial conditions
     invalid = True
     attempts = 0

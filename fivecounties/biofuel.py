@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+### Biofuel component
+## Handles the choice variable beta, the amount of agriculture land for biofuels
+## Simulates the energy provided and water used to generate biofuel
+## Objective unctions sells any access energy
+## Call as `python biofuel.py` to optimize the amount of biofuel alone (goes to 1).
 
 import pandas
 import numpy as np
@@ -24,6 +29,7 @@ def generate():
     return betas.tolist()
 
 def simulate_county(beta, Crop_yield):
+    """Simulates the energy provided and water used to generate biofuel."""
     Biofuel_Stock = beta * Crop_yield   # in kg corn
     Biofuel_E = Biofuel_Stock * epsilon_b
     Water_Draw = lambda_b * Biofuel_E

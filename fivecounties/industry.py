@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+### Industry component
+## Optimizes the amount of water and fuel to industry
+## Simulates manufacturing as a Cobb-Douglas of water and energy
+## The partial objective sells all of the manufactured good on the market
+## The sole objective includes the cost of fossil fuels
+## Call as `python industry.py` to optimize usage with only industry
 
 import pandas
 import numpy as np
@@ -29,6 +35,7 @@ def generate():
     return lambda_Cs.tolist() + sigma_Cs.tolist()
 
 def simulate_county(lambda_C, sigma_C, county):
+    """Simulates manufacturing as a Cobb-Douglas of water and energy."""
     Water_Draw = lambda_C * (1 - alpha[county]) * Area[county]
     Mfct_good = production_scaling * (1 - alpha[county]) * Area[county] * (sigma_C ** eta[county]) * (lambda_C ** (1-eta[county]))
     Energy_D = (sigma_C * (1 - alpha[county]) * (Area[county]))
@@ -57,6 +64,7 @@ def partial_objective(Mfct_goods):
     return total
 
 def sole_objective(params):
+    """Partial objective, plus the cost of fossil fuels."""
     lambda_Cs = params[0:N]
     sigma_Cs = params[N:2*N]
 

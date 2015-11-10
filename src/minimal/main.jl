@@ -1,9 +1,11 @@
-import IAMF
+push!(LOAD_PATH, "/Users/jrising/projects/iam/")
+
+import Mimi
 
 include("model.jl")
 
 m = makemodel(parameters={"slope" => [1.0]})
 
-IAMF.run(m)
+Mimi.run(m)
 
 m.components[:linear].Variables

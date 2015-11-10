@@ -1,3 +1,9 @@
+### Shared functions and parameters
+## Parameters:
+## This is mainly for the cost of energy on the market, and the markup parameter
+## Functions:
+## maximize is the general optimization function, which adjust the scale of parameters
+
 from scipy import optimize
 
 objective_scaling = 1e6

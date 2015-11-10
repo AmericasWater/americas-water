@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+### Agriculture component
+## Simulates crop yields as a Cobb-Douglas model of water and energy
+## Defines a partial objective of satisfying food demand and selling excess
+## Sole objective includes cost of energy
+## Run as `python agriculture.py` to just optimize yields
 
 import pandas
 import numpy as np
@@ -50,6 +55,7 @@ def generate():
     return lambda_As.tolist() + sigma_As.tolist()
 
 def simulate_county(lambda_A, sigma_A, beta, county):
+    """Simulates crop yields as a Cobb-Douglas model of water and energy."""
     Crop_yield = yield_scaling * alpha[county] * Area[county] * (((theta[county]) ** (delta)) * ((sigma_A) ** (gamma)) * ((lambda_A) ** (1 - delta - gamma)))   # in kg corn
 
     Food_S = (1 - beta) * Crop_yield    # in kg corn
@@ -81,6 +87,7 @@ def simulate_all(lambda_As, sigma_As, betas):
     return Crop_yields, Food_Ss, Food_Ds, Water_Draws, Energy_Ds
 
 def partial_objective(Food_Ss, Food_Ds):
+    """Objective of satisfying food demand and selling excess."""
     total = 0
     for county in range(N):
         if Food_Ss[county] > Food_Ds[county]:
@@ -91,6 +98,7 @@ def partial_objective(Food_Ss, Food_Ds):
     return total
 
 def sole_objective(params, betas):
+    """Partial objective, plus cost of energy."""
     lambda_As = params[0:N]
     sigma_As = params[N:2*N]
 
@@ -98,6 +106,7 @@ def sole_objective(params, betas):
 
     return partial_objective(Food_Ss, Food_Ds) - sum(Energy_Ds)*lib.p_E
 
+# Cannot use more water than available, but may use any amount of nergy
 bounds = [(0, W_surf[county] / (alpha[county] * Area[county])) for county in range(N)] + \
          [(0, None)] * N
 

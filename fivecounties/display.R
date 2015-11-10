@@ -1,3 +1,5 @@
+### Displays the parameter sweeps, adjusting food and fuel prices
+
 setwd("~/projects/water/fivecounties")
 
 do.combine <- F
