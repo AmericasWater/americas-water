@@ -6,13 +6,18 @@ include("world.jl")
 @defcomp Pumping begin
     regions = Index()
 
-    conversion = Parameter() # mgh to
-    elecvsfuel = Parameter(index=[regions, time])
+    conversion = Parameter() # to kWh, include efficiency
     depth = Parameter(index=[region, time])
     withdraws = Parameter(index=[region, time])
 
-    elecwatts = Variable(index=[regions, time])
-    fuelwatts = Variable(index=[regions, time])
+    kwh = Variable(index=[regions, time])
+
+    elecvsfuel = Parameter(index=[regions, time])
+
+    eleckwh = Variable(index=[regions, time])
+
+    generatorefficiency = Parameter()
+    fuelkwh = Variable(index=[regions, time])
 end
 
 function timestep(c::Pumping, tt::Int)
@@ -21,7 +26,8 @@ function timestep(c::Pumping, tt::Int)
     d = c.Dimensions
 
     for rr in d.regions
-        v.eleccons[rr, tt] = p.elecvsfuel[rr, tt] * p.conversion * p.depth[rr, tt] * p.withdraws[rr, tt]
-        v.fuelcons[rr, tt] = (1 - p.elecvsfuel[rr, tt]) * p.conversion * p.depth[rr, tt] * p.withdraws[rr, tt]
+        v.kwh[rr, tt] = p.conversion * p.depth[rr, tt] * p.withdraws[rr, tt]
+        v.eleccons[rr, tt] = p.elecvsfuel[rr, tt] * v.kwh[rr, tt]
+        v.fuelcons[rr, tt] = (1 - p.elecvsfuel[rr, tt]) * v.kwh[rr, tt] / p.generatorefficiency
     end
 end
