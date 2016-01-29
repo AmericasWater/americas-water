@@ -2,7 +2,7 @@ using ForwardDiff
 using Distributions
 using MathProgBase
 
-# Most advanced method: maparmijomax
+# Suggested method from the ones below: maparmijomax
 
 # From http://web.mit.edu/15.053/www/AMP-Chapter-13.pdf
 #   with some help from Menke's Inversion Theory notes
